@@ -1,0 +1,38 @@
+Given an m x n matrix mat, return an array of all the elements of the array in a diagonal order.
+
+ Input: mat = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [1,2,4,7,5,3,6,8,9]
+class Solution {
+    public int[] findDiagonalOrder(int[][] mat) {
+        if(mat==null|| mat.length==0){
+            return new int[0];
+        }
+        int n=mat.length;
+        int m=mat[0].length;
+        int row=0,col=0;
+        int dir=1;
+        int res[]=new int[n*m];
+        int r=0;
+        while(row<n && col<m){
+            res[r++]=mat[row][col];
+            int new_row=row+(dir==1?-1:1);
+            int new_col=col+(dir==1?1:-1);
+            if(new_row<0 || new_row==n || new_col<0 || new_col==m){
+                if(dir==1){
+                    row+=(col==m-1?1:0);
+                    col+=(col<m-1?1:0);
+                }else{
+                    col+=(row==n-1?1:0);
+                    row+=(row<n-1?1:0);
+                }
+                dir=1-dir;
+            }
+            
+            else{
+                    row=new_row;
+                    col=new_col;
+                }
+        }
+        return res;
+    }
+}
