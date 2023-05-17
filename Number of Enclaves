@@ -1,0 +1,38 @@
+You are given an m x n binary matrix grid, where 0 represents a sea cell and 1 represents a land cell.
+
+A move consists of walking from one land cell to another adjacent (4-directionally) land cell or walking off the boundary of the grid.
+
+Return the number of land cells in grid for which we cannot walk off the boundary of the grid in any number of moves.class Solution {
+    public int maxAreaOfIsland(int[][] grid) {
+        boolean seen[][]=new boolean[grid.length][grid[0].length];
+        int dr[]=new int[]{1,-1,0,0};
+        int dc[]=new int[]{0,0,1,-1};
+        int ans=0;
+        for(int r=0;r<grid.length;r++){
+            for(int c=0;c<grid[0].length;c++){
+                if(grid[r][c]==1 &&!seen[r][c]){
+                    int s=0;
+                    Stack<int[]>st=new Stack();
+                    st.push(new int[]{r,c});
+                    seen[r][c]=true;
+                    while(!st.empty()){
+                        int node[]=st.pop();
+                        int r0=node[0];
+                        int c0=node[1];
+                        s++;
+                        for(int k=0;k<4;k++){
+                            int nr=r0+dr[k];
+                            int nc=c0+dc[k];
+                            if(0<=nr && nr<grid.length && 0<=nc&&nc<grid[0].length &&grid[nr][nc]==1 && !seen[nr][nc] ){
+                                st.push(new int[]{nr,nc});
+                                seen[nr][nc]=true;
+                            }
+                        }
+                    }
+                    ans=Math.max(ans,s);
+                }
+            }
+        }
+        return ans;
+    }
+}
